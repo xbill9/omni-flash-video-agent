@@ -4,6 +4,8 @@ This repository contains tools, scripts, and an MCP (Model Context Protocol) ser
 
 Unlike traditional video generation models, Gemini Omni Flash utilizes the stateful **Interactions API** which allows you to iteratively edit and refine videos using natural language conversation within a single session.
 
+**GitHub Repository:** [xbill9/omni-flash-video-agent](https://github.com/xbill9/omni-flash-video-agent)
+
 ---
 
 ## 🚀 Getting Started
@@ -67,20 +69,27 @@ mcp dev server.py
 
 ### Exposed MCP Tools
 
-1. **`generate_video(prompt: str, aspect_ratio: str = '16:9')`**
+1. **`generate_video(prompt: str, aspect_ratio: str = '16:9', delivery: str = 'inline')`**
    - Generates a 10s video from a text prompt.
    - Supported aspect ratios: `16:9` and `9:16`.
+   - Delivery modes: `inline` (base64) or `uri` (recommended for larger files).
    - Returns the path to the saved video and the stateful `interaction_id`.
 
-2. **`edit_video(previous_interaction_id: str, edit_prompt: str)`**
+2. **`edit_video(previous_interaction_id: str, edit_prompt: str, delivery: str = 'inline')`**
    - Edits an existing video using the `previous_interaction_id` to maintain contextual history.
    - Refines elements (e.g. changing scenery, adding subjects) while keeping the overall video context stable.
 
-3. **`animate_image(image_path: str, motion_prompt: str)`**
+3. **`animate_image(image_path: str, motion_prompt: str, delivery: str = 'inline')`**
    - Animates a static local image using a motion description.
 
-4. **`generate_large_video_async(prompt: str)`**
-   - Asynchronously generates and downloads larger video outputs (>4MB) using Google File API delivery.
+4. **`interpolate_images(start_image_path: str, end_image_path: str, prompt: str, delivery: str = 'inline')`**
+   - Creates a smooth video transition (e.g., a timelapse) between two keyframes.
+
+5. **`generate_with_subjects(subject_image_paths: list[str], prompt: str, delivery: str = 'inline')`**
+   - Generates a video incorporating specific subjects/characters from local reference images.
+
+6. **`edit_user_video(video_path: str, edit_prompt: str, delivery: str = 'inline')`**
+   - Uploads a local user video via the File API and edits it with Omni Flash.
 
 ---
 
