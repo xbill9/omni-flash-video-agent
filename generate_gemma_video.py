@@ -26,7 +26,7 @@ def main():
     
     try:
         interaction = client.interactions.create(
-            model="bouncybohr",
+            model="gemini-omni-flash-preview",
             input=prompt,
             response_modalities=["video"],
             background=False,

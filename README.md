@@ -1,6 +1,6 @@
 # Gemini Omni Flash Video Agent
 
-This repository contains tools, scripts, and an MCP (Model Context Protocol) server for interacting with **Gemini Omni Flash** (codenamed **bouncybohr**), a high-performance multimodal model designed for high-speed video generation, stateful editing, and cinematic control.
+This repository contains tools, scripts, and an MCP (Model Context Protocol) server for interacting with **Gemini Omni Flash** (codenamed **gemini-omni-flash-preview**), a high-performance multimodal model designed for high-speed video generation, stateful editing, and cinematic control.
 
 Unlike traditional video generation models, Gemini Omni Flash utilizes the stateful **Interactions API** which allows you to iteratively edit and refine videos using natural language conversation within a single session.
 
@@ -32,7 +32,7 @@ export GEMINI_API_KEY="your-api-key-here"
 - **[generate_gemma_video.py](file:///home/xbill/omni-flash-video-agent/generate_gemma_video.py)**: Script demonstrating one-shot text-to-video generation.
 - **[update_gemma_video.py](file:///home/xbill/omni-flash-video-agent/update_gemma_video.py)**: Script demonstrating stateful, multi-turn video editing using `previous_interaction_id`.
 - **[requirements.txt](file:///home/xbill/omni-flash-video-agent/requirements.txt)**: Python dependencies.
-- **[eap.md](file:///home/xbill/omni-flash-video-agent/eap.md)**: Official Early Access Program (EAP) documentation for Gemini Omni Flash (`bouncybohr`).
+- **[omni.md](file:///home/xbill/omni-flash-video-agent/omni.md)**: Official documentation for Gemini Omni Flash (`gemini-omni-flash-preview`).
 - **[GEMINI.md](file:///home/xbill/omni-flash-video-agent/GEMINI.md)**: Essential references for the Google GenAI Interactions API and prompting guide.
 
 ---
@@ -95,5 +95,5 @@ mcp dev server.py
 
 ## 📚 Documentation
 For complete API specifications, payload samples, and capabilities, refer to:
-- [eap.md](file:///home/xbill/omni-flash-video-agent/eap.md) - Early Access Program API Documentation
+- [omni.md](file:///home/xbill/omni-flash-video-agent/omni.md) - Gemini Omni Flash API Documentation
 - [GEMINI.md](file:///home/xbill/omni-flash-video-agent/GEMINI.md) - Key links to Google Dev APIs

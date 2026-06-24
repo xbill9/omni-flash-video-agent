@@ -1,8 +1,8 @@
-# Gemini Omni Flash (bouncybohr) EAP
+# Gemini Omni Flash (gemini-omni-flash-preview) Documentation
 
 ***Confidential: The following is under embargo until further notice. Please do not publicly share or post this information.***
 
-Gemini Omni Flash (codenamed **bouncybohr**) is a high-performance multimodal model designed for high-speed video generation, editing, and cinematic control. Unlike traditional video generation models that produce a single output, Omni lets you iteratively refine and edit your videos through natural language conversation — just describe what you want to change, and the model applies the edit while preserving the parts you want to keep.
+Gemini Omni Flash (codenamed **gemini-omni-flash-preview**) is a high-performance multimodal model designed for high-speed video generation, editing, and cinematic control. Unlike traditional video generation models that produce a single output, Omni lets you iteratively refine and edit your videos through natural language conversation — just describe what you want to change, and the model applies the edit while preserving the parts you want to keep.
 
 ***Key differentiator:*** *Unlike Veo (which uses the `generate_videos` endpoint), Gemini Omni Flash is available exclusively through the [Interactions API](https://ai.google.dev/gemini-api/docs/interactions-overview). Every call — whether generating a first video or editing an existing one — uses `create_interaction`. This means you can generate a video, then edit it through follow-up prompts — all within a single conversation and without having to download or upload anything.*
 
@@ -27,7 +27,7 @@ from google import genai
 client = genai.Client()
 
 interaction = client.interactions.create(
-    model="bouncybohr",
+    model="gemini-omni-flash-preview",
     input="A hyper-realistic close-up of a cat drinking a large cup of tea.",
     response_format={"type": "video"},
     background=False,
@@ -45,7 +45,7 @@ import { GoogleGenAI } from '@google/genai';
 const ai = new GoogleGenAI();
 
 const interaction = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   input: 'A hyper-realistic cat drinking tea.',
   response_format: { type: 'video' },
   background: false,
@@ -61,7 +61,7 @@ curl -X POST "https://generativelanguage.googleapis.com/v1beta/interactions?key=
 -H "Content-Type: application/json" \
 -H "Api-Revision: 2026-05-20" \
 -d '{
- "model": "bouncybohr",
+ "model": "gemini-omni-flash-preview",
  "input": "A hyper-realistic close-up of a cat drinking a large cup of tea.",
  "response_format": {"type": "video"},
  "background": false,
@@ -96,7 +96,7 @@ When using the REST API directly, note that the convenience field `interaction.o
   ],
   "id": "v1_...",
   "status": "completed",
-  "model": "bouncybohr",
+  "model": "gemini-omni-flash-preview",
   "object": "interaction"
 }
 ```
@@ -111,7 +111,7 @@ Set the `aspect_ratio` to `"9:16"` to create portrait videos. Default is landsca
 
 ```py
 interaction = client.interactions.create(
-    model="bouncybohr",
+    model="gemini-omni-flash-preview",
     input="A futuristic city with neon lights and flying cars, cyberpunk style",
     response_format={
         "type": "video",
@@ -124,7 +124,7 @@ interaction = client.interactions.create(
 
 ```javascript
 const interaction = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   input: 'A futuristic city with neon lights and flying cars, cyberpunk style',
   response_format: {
     type: 'video',
@@ -139,7 +139,7 @@ const interaction = await ai.interactions.create({
 curl -X POST "https://generativelanguage.googleapis.com/v1beta/interactions?key=$API_KEY" \
 -H "Content-Type: application/json" \
 -d '{
- "model": "bouncybohr",
+ "model": "gemini-omni-flash-preview",
  "input": "A futuristic city with neon lights and flying cars, cyberpunk style",
  "response_format": {
    "type": "video",
@@ -156,7 +156,7 @@ Animate a still image by passing it as input alongside a text prompt that descri
 
 ```py
 interaction = client.interactions.create(
-    model="bouncybohr",
+    model="gemini-omni-flash-preview",
     input=[
         {"type": "image", "data": base64_image, "mime_type": "image/jpeg"},
         {"type": "text", "text": "Animate this scene."}
@@ -169,7 +169,7 @@ interaction = client.interactions.create(
 
 ```javascript
 const interaction = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   input: [
     { type: 'image', data: base64Image, mime_type: 'image/jpeg' },
     { type: 'text', text: 'Animate this scene.' },
@@ -185,7 +185,7 @@ curl -X POST "https://generativelanguage.googleapis.com/v1beta/interactions?key=
 -H "Content-Type: application/json" \
 -H "Api-Revision: 2026-05-20" \
 -d '{
- "model": "bouncybohr",
+ "model": "gemini-omni-flash-preview",
  "input": [
    {"type": "image", "data": "'"$BASE64_IMAGE"'", "mime_type": "image/jpeg"},
    {"type": "text", "text": "Animate this scene."}
@@ -209,7 +209,7 @@ If you provide 2 images or state that the video should start from a certain imag
 
 ```py
 interaction = client.interactions.create(
-    model="bouncybohr",
+    model="gemini-omni-flash-preview",
     input=[
         {"type": "image", "data": start_b64, "mime_type": "image/png"},
         {"type": "image", "data": end_b64, "mime_type": "image/png"},
@@ -223,7 +223,7 @@ interaction = client.interactions.create(
 
 ```javascript
 const interaction = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   input: [
     { type: 'image', data: startData, mime_type: 'image/png' },
     { type: 'image', data: endData, mime_type: 'image/png' },
@@ -240,7 +240,7 @@ curl -X POST "https://generativelanguage.googleapis.com/v1beta/interactions?key=
 -H "Content-Type: application/json" \
 -H "Api-Revision: 2026-05-20" \
 -d '{
- "model": "bouncybohr",
+ "model": "gemini-omni-flash-preview",
  "input": [
    {"type": "image", "data": "'"$START_B64"'", "mime_type": "image/png"},
    {"type": "image", "data": "'"$END_B64"'", "mime_type": "image/png"},
@@ -261,7 +261,7 @@ Generate a video incorporating specific subjects provided as reference images.
 
 ```py
 interaction = client.interactions.create(
-    model="bouncybohr",
+    model="gemini-omni-flash-preview",
     input=[
         {"type": "image", "data": cat_b64, "mime_type": "image/png"},
         {"type": "image", "data": yarn_b64, "mime_type": "image/png"},
@@ -275,7 +275,7 @@ interaction = client.interactions.create(
 
 ```javascript
 const interaction = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   input: [
     { type: 'image', data: catData, mime_type: 'image/png' },
     { type: 'image', data: yarnData, mime_type: 'image/png' },
@@ -292,7 +292,7 @@ curl -X POST "https://generativelanguage.googleapis.com/v1beta/interactions?key=
 -H "Content-Type: application/json" \
 -H "Api-Revision: 2026-05-20" \
 -d '{
- "model": "bouncybohr",
+ "model": "gemini-omni-flash-preview",
  "input": [
    {"type": "image", "data": "'"$CAT_B64"'", "mime_type": "image/png"},
    {"type": "image", "data": "'"$YARN_B64"'", "mime_type": "image/png"},
@@ -321,11 +321,11 @@ The following example demonstrates how to generate a first video then edit it:
 
 ```py
 # Turn 1: Generate initial video
-res1 = client.interactions.create(model="bouncybohr", input="A dog running.")
+res1 = client.interactions.create(model="gemini-omni-flash-preview", input="A dog running.")
 
 # Turn 2: Edit the previous video
 res2 = client.interactions.create(
-    model="bouncybohr",
+    model="gemini-omni-flash-preview",
     previous_interaction_id=res1.id,
     input="Change the setting to a snowy winter wonderland."
 )
@@ -336,13 +336,13 @@ res2 = client.interactions.create(
 ```javascript
 // Turn 1: Generate initial video
 const res1 = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   input: 'A dog running.',
 });
 
 // Turn 2: Edit the previous video
 const res2 = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   previous_interaction_id: res1.id,
   input: 'Change the setting to a snowy winter wonderland.',
 });
@@ -355,7 +355,7 @@ curl -X POST "https://generativelanguage.googleapis.com/v1beta/interactions?key=
 -H "Content-Type: application/json" \
 -H "Api-Revision: 2026-05-20" \
 -d '{
- "model": "bouncybohr",
+ "model": "gemini-omni-flash-preview",
  "previous_interaction_id": "'"$PREVIOUS_ID"'",
  "input": "Change the setting to a snowy winter wonderland.",
  "background": false,
@@ -408,7 +408,7 @@ curl -sS -w "\n[HTTP %{http_code}]\n" "https://generativelanguage.googleapis.com
   -H "Content-Type: application/json" \
   -d @- <<EOF > video_editing_response.json
 {
-  "model": "bouncybohr",
+  "model": "gemini-omni-flash-preview",
   "input": [
     {
       "type": "user_input",
@@ -444,7 +444,7 @@ import time
 
 # 1. Request video via URI delivery
 interaction = client.interactions.create(
-    model="bouncybohr",
+    model="gemini-omni-flash-preview",
     input="A beautiful sunset.",
     response_format={"type": "video", "delivery": "uri"}
 )
@@ -473,7 +473,7 @@ with open("output.mp4", "wb") as f:
 ```javascript
 // 1. Request video via URI delivery
 const interaction = await ai.interactions.create({
-  model: 'bouncybohr',
+  model: 'gemini-omni-flash-preview',
   input: 'A beautiful sunset.',
   response_format: { type: 'video', delivery: 'uri' },
 });
@@ -509,7 +509,7 @@ RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/int
 -H "Content-Type: application/json" \
 -H "Api-Revision: 2026-05-20" \
 -d '{
- "model": "bouncybohr",
+ "model": "gemini-omni-flash-preview",
  "input": "A beautiful sunset over a calm ocean.",
  "response_format": {"type": "video", "delivery": "uri"},
  "background": false,
@@ -568,7 +568,7 @@ echo "Done! Video saved to output.mp4"
   ],
   "id": "v1_...",
   "status": "completed",
-  "model": "bouncybohr",
+  "model": "gemini-omni-flash-preview",
   "object": "interaction"
 }
 ```
@@ -585,7 +585,8 @@ For workflows where you cannot maintain a long-lived connection, you can use `ba
 4. **Poll GET** `/v1beta/files/{file_id}` until `state` is `"ACTIVE"` or `“PROCESSING”` (as you don’t need to wait for the video to be tokenized)  
 5. **Download** using `GET /v1beta/files/{file_id}:download?alt=media` with the `-L` flag.
 
-\[\!CAUTION\] **EAP Limitation:** Background mode currently has known issues with stateful interactions (chained edits). For the most reliable experience, use synchronous calls (`background: false`) with streaming (`stream: true`). We recommend using only `stream: false` for the EAP
+> [!CAUTION]
+> **Preview Limitation:** Background mode currently has known issues with stateful interactions (chained edits). For the most reliable experience, use synchronous calls (`background: false`) with streaming (`stream: true`). We recommend using only `stream: false` for the preview.
 
 ## 
 

@@ -25,7 +25,7 @@ def main():
     print(f"1. Generating initial video (store=True)...")
     try:
         interaction_1 = client.interactions.create(
-            model="bouncybohr",
+            model="gemini-omni-flash-preview",
             input=initial_prompt,
             response_modalities=["video"],
             background=False,
@@ -51,7 +51,7 @@ def main():
     
     try:
         interaction_2 = client.interactions.create(
-            model="bouncybohr",
+            model="gemini-omni-flash-preview",
             previous_interaction_id=initial_id,
             input=edit_prompt,
             response_modalities=["video"],

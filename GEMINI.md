@@ -13,13 +13,13 @@ https://ai.google.dev/api/interactions.md.txt
 
 ---
 
-## ⚡ Gemini Omni Flash (`bouncybohr`) Cheat Sheet
+## ⚡ Gemini Omni Flash (`gemini-omni-flash-preview`) Cheat Sheet
 
-Gemini Omni Flash (`bouncybohr`) is exclusively accessed via the **Interactions API** (`client.interactions.create`).
+Gemini Omni Flash (`gemini-omni-flash-preview`) is exclusively accessed via the **Interactions API** (`client.interactions.create`).
 
 ### 🔑 Essential Parameters
 
-- **`model`**: Set to `"bouncybohr"`.
+- **`model`**: Set to `"gemini-omni-flash-preview"`.
 - **`input`**: A text prompt (string) or a list containing base64 images and text prompts (e.g. `[{"type": "image", "data": "...", "mime_type": "image/png"}, {"type": "text", "text": "Animate this"}]`).
 - **`response_format`**:
   - `{"type": "video"}` for default video output.

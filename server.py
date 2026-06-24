@@ -9,7 +9,7 @@ mcp = FastMCP("Gemini Omni Flash Video Agent")
 
 # Initialize the Gemini client
 client = genai.Client()
-MODEL_NAME = "bouncybohr"
+MODEL_NAME = "gemini-omni-flash-preview"
 
 def _get_image_data(image_path: str) -> dict:
     """Helper to convert local image file to base64 input dict."""
@@ -259,5 +259,56 @@ def edit_user_video(video_path: str, edit_prompt: str, delivery: str = "inline")
     except Exception as e:
         return f"🔴 Editing user video failed: {str(e)}"
 
+@mcp.tool()
+def get_help() -> str:
+    """
+    Returns a summary and usage guide for all available MCP tools in the Gemini Omni Flash Video Agent.
+    """
+    summary = (
+        "🤖 Gemini Omni Flash Video Agent - MCP Tools Summary\n\n"
+        "Here are the available tools you can use to generate and edit videos:\n\n"
+        "1. generate_video\n"
+        "   - Description: Generates an initial video from a text prompt.\n"
+        "   - Parameters:\n"
+        "     • prompt (str): Text description of the video.\n"
+        "     • aspect_ratio (str, default '16:9'): '16:9' (landscape) or '9:16' (portrait).\n"
+        "     • delivery (str, default 'inline'): 'inline' (base64) or 'uri' (File API download for large files).\n\n"
+        "2. edit_video\n"
+        "   - Description: Edits a previously generated video using its interaction ID.\n"
+        "   - Parameters:\n"
+        "     • previous_interaction_id (str): Interaction ID of the video from the previous turn.\n"
+        "     • edit_prompt (str): Natural language description of what to change.\n"
+        "     • delivery (str, default 'inline'): 'inline' or 'uri'.\n\n"
+        "3. animate_image\n"
+        "   - Description: Animates a static local image using a motion description.\n"
+        "   - Parameters:\n"
+        "     • image_path (str): Path to the local image file.\n"
+        "     • motion_prompt (str): Instructions on how the image should animate.\n"
+        "     • delivery (str, default 'inline'): 'inline' or 'uri'.\n\n"
+        "4. interpolate_images\n"
+        "   - Description: Creates an interpolation transition video between two local keyframe images.\n"
+        "   - Parameters:\n"
+        "     • start_image_path (str): Path to the first image.\n"
+        "     • end_image_path (str): Path to the final image.\n"
+        "     • prompt (str): Instruction detailing the transition.\n"
+        "     • delivery (str, default 'inline'): 'inline' or 'uri'.\n\n"
+        "5. generate_with_subjects\n"
+        "   - Description: Generates a video incorporating specific subjects provided as reference image paths.\n"
+        "   - Parameters:\n"
+        "     • subject_image_paths (list[str]): List of local paths to subject images.\n"
+        "     • prompt (str): Description of the scene and subject actions.\n"
+        "     • delivery (str, default 'inline'): 'inline' or 'uri'.\n\n"
+        "6. edit_user_video\n"
+        "   - Description: Uploads a local video using the Gemini File API and edits it with Gemini Omni Flash.\n"
+        "   - Parameters:\n"
+        "     • video_path (str): Path to the local video file to upload and edit.\n"
+        "     • edit_prompt (str): Instruction of what to change in the video.\n"
+        "     • delivery (str, default 'inline'): 'inline' or 'uri'.\n\n"
+        "7. get_help\n"
+        "   - Description: Returns this summary and usage guide for all available tools."
+    )
+    return summary
+
 if __name__ == "__main__":
     mcp.run()
+
