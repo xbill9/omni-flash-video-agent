@@ -27,6 +27,7 @@ class TestAgentImports(unittest.TestCase):
             self.assertTrue(hasattr(server, "interpolate_images"))
             self.assertTrue(hasattr(server, "generate_with_subjects"))
             self.assertTrue(hasattr(server, "edit_user_video"))
+            self.assertTrue(hasattr(server, "upload_to_youtube"))
             print("🟢 Server tools definition check passed successfully!")
 
 

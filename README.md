@@ -16,10 +16,11 @@ Unlike traditional video generation models, Gemini Omni Flash utilizes the state
 - 👥 **Subject References:** Generate videos featuring specific characters or objects provided via local reference photos.
 - ✍️ **Stateful Multi-turn Editing:** Edit previously generated videos iteratively while maintaining visual context.
 - 📤 **User Video Editing:** Upload local videos using the Gemini File API to edit or stylize them using natural language.
+- 📺 **YouTube Upload:** Upload generated or edited local videos directly to YouTube using OAuth2 credentials.
 
 ### 🗺️ System Implementation Mapping
 
-The diagram below shows how the Gemini Interactions API capabilities are mapped to the scripts and MCP tools in this repository:
+The diagram below shows how the capabilities and APIs are mapped to the scripts and MCP tools in this repository:
 
 ```mermaid
 graph TD
@@ -29,6 +30,7 @@ graph TD
     A --> E[Keyframe Interpolation]
     A --> F[Subject Reference]
     A --> G[User Video Upload]
+    Y[YouTube Data API v3] --> Z[YouTube Upload]
 
     B --> H["generate_gemma_video.py<br>generate_video() in server.py"]
     C --> I["update_gemma_video.py<br>edit_video() in server.py"]
@@ -36,6 +38,7 @@ graph TD
     E --> K["interpolate_images() in server.py"]
     F --> L["generate_with_subjects() in server.py"]
     G --> M["edit_user_video() in server.py"]
+    Z --> N["upload_to_youtube() in server.py"]
 ```
 
 ---
@@ -56,7 +59,7 @@ graph TD
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Prerequisites & Setup
 
 Ensure you have Python 3.10+ installed. Install the dependencies using pip:
 
@@ -64,11 +67,14 @@ Ensure you have Python 3.10+ installed. Install the dependencies using pip:
 pip install -r requirements.txt
 ```
 
-Set your Gemini API Key as an environment variable:
+Configure your credentials and environment variables (`GEMINI_API_KEY` and `GOOGLE_API_KEY`) by sourcing the setup script:
 
 ```bash
-export GEMINI_API_KEY="your-api-key-here"
+source set_env.sh
 ```
+This will automatically check for your API key in `~/gemini.key`, prompt you if missing, export both `GEMINI_API_KEY` and `GOOGLE_API_KEY`, and dynamically update `.agents/mcp_config.json` with the correct server path and environment keys.
+
+
 
 ### Running the Scripts
 
@@ -175,8 +181,17 @@ Uploads a local user video via the File API and edits it with Omni Flash.
   - `edit_prompt` (string, required): Natural language description of what to change in the video.
   - `delivery` (string, default: `"inline"`): `"inline"` or `"uri"`.
 
-### 7. `get_help`
-Utility tool providing a quick inline summary and guide of all available tools and parameters.
+### 7. `upload_to_youtube`
+Uploads a local video file to YouTube.
+- **Parameters:**
+  - `video_path` (string, required): Absolute path to the local video file.
+  - `title` (string, required): Title of the YouTube video.
+  - `description` (string, required): Description of the video.
+  - `category_id` (string, default: `"22"`): YouTube category ID.
+  - `privacy_status` (string, default: `"private"`): `"private"`, `"public"`, or `"unlisted"`.
+
+### 8. `get_help`
+Utility tool providing a quick inline summary, cinematic prompting best practices, delivery modes guide, and key references for all available tools and parameters.
 
 ---
 

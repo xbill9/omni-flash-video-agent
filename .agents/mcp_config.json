@@ -4,7 +4,11 @@
       "command": "python3",
       "args": [
         "/home/xbill/omni-flash-video-agent/server.py"
-      ]
+      ],
+      "env": {
+        "GEMINI_API_KEY": "",
+        "GOOGLE_API_KEY": ""
+      }
     }
   }
 }

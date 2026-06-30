@@ -296,21 +296,133 @@ def edit_user_video(video_path: str, edit_prompt: str, delivery: str = "inline")
 
 
 @mcp.tool()
+def upload_to_youtube(
+    video_path: str,
+    title: str,
+    description: str,
+    category_id: str = "22",
+    privacy_status: str = "private"
+) -> str:
+    """
+    Uploads a local video file to YouTube using the YouTube Data API v3.
+    Requires 'client_secrets.json' in the project directory.
+    - video_path: Path to the local video file.
+    - title: Title of the video.
+    - description: Description of the video.
+    - category_id: YouTube category ID (default '22' for People & Blogs).
+    - privacy_status: 'private', 'public', or 'unlisted'.
+    """
+    import os
+    import pickle
+
+    if not os.path.exists(video_path):
+        return f"❌ Error: Video file not found at {video_path}"
+
+    client_secrets_file = "client_secrets.json"
+    token_file = "token.pickle"
+
+    if not os.path.exists(client_secrets_file) and not os.path.exists(token_file):
+        return (
+            "❌ YouTube API credentials missing.\n\n"
+            "Please follow these steps to set up YouTube upload capabilities:\n"
+            "1. Go to Google Cloud Console (https://console.cloud.google.com/).\n"
+            "2. Create a project and enable the 'YouTube Data API v3'.\n"
+            "3. Go to 'Credentials', create an 'OAuth client ID' (Application type: Desktop App).\n"
+            "4. Download the credentials JSON and save it as 'client_secrets.json' in the folder:\n"
+            "   /home/xbill/omni-flash-video-agent/client_secrets.json\n"
+            "5. Run this tool again. It will prompt/open a browser window to authenticate on the first run."
+        )
+
+    try:
+        from googleapiclient.discovery import build
+        from googleapiclient.http import MediaFileUpload
+        from google_auth_oauthlib.flow import InstalledAppFlow
+        from google.auth.transport.requests import Request
+    except ImportError:
+        return (
+            "❌ Required Python packages for YouTube integration are missing.\n"
+            "Please run: pip install google-api-python-client google-auth-oauthlib google-auth-httplib2"
+        )
+
+    # Scopes required for YouTube uploading
+    scopes = ["https://www.googleapis.com/auth/youtube.upload"]
+    creds = None
+
+    # Load credentials if they exist
+    if os.path.exists(token_file):
+        with open(token_file, "rb") as token:
+            creds = pickle.load(token)
+
+    # If credentials are not valid/exist, request them
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            if not os.path.exists(client_secrets_file):
+                return f"❌ client_secrets.json not found, and token.pickle is expired or invalid."
+            flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, scopes)
+            creds = flow.run_local_server(port=0)
+        
+        # Save credentials for future runs
+        with open(token_file, "wb") as token:
+            pickle.dump(creds, token)
+
+    try:
+        youtube = build("youtube", "v3", credentials=creds)
+
+        body = {
+            "snippet": {
+                "title": title,
+                "description": description,
+                "categoryId": category_id
+            },
+            "status": {
+                "privacyStatus": privacy_status
+            }
+        }
+
+        media = MediaFileUpload(video_path, chunksize=-1, resumable=True, mimetype="video/*")
+
+        request = youtube.videos().insert(
+            part="snippet,status",
+            body=body,
+            media_body=media
+        )
+
+        response = None
+        while response is None:
+            status, response = request.next_chunk()
+            if status:
+                print(f"Uploaded {int(status.progress() * 100)}%")
+
+        video_id = response.get("id")
+        return (
+            f"🟢 Video successfully uploaded to YouTube!\n"
+            f"• Video ID: {video_id}\n"
+            f"• URL: https://www.youtube.com/watch?v={video_id}\n"
+            f"• Status: {privacy_status}"
+        )
+
+    except Exception as e:
+        return f"❌ Upload failed with error: {str(e)}"
+
+
+@mcp.tool()
 def get_help() -> str:
     """
-    Returns a summary and usage guide for all available MCP tools in the Gemini Omni Flash Video Agent.
+    Returns a summary, prompting best practices, and usage guide for all available MCP tools in the Gemini Omni Flash Video Agent.
     """
     summary = (
-        "🤖 Gemini Omni Flash Video Agent - MCP Tools Summary\n\n"
-        "Here are the available tools you can use to generate and edit videos:\n\n"
+        "🤖 Gemini Omni Flash Video Agent (Model: gemini-omni-flash-preview) - MCP Tools Summary & Guide\n\n"
+        "Here are the available tools you can use to generate, edit, and animate videos:\n\n"
         "1. generate_video\n"
         "   - Description: Generates an initial video from a text prompt.\n"
         "   - Parameters:\n"
         "     • prompt (str): Text description of the video.\n"
         "     • aspect_ratio (str, default '16:9'): '16:9' (landscape) or '9:16' (portrait).\n"
-        "     • delivery (str, default 'inline'): 'inline' (base64) or 'uri' (File API download for large files).\n\n"
+        "     • delivery (str, default 'inline'): 'inline' (base64 bytes) or 'uri' (Google File API delivery for files > 4MB).\n\n"
         "2. edit_video\n"
-        "   - Description: Edits a previously generated video using its interaction ID.\n"
+        "   - Description: Edits a previously generated video statefully using its interaction ID.\n"
         "   - Parameters:\n"
         "     • previous_interaction_id (str): Interaction ID of the video from the previous turn.\n"
         "     • edit_prompt (str): Natural language description of what to change.\n"
@@ -326,7 +438,7 @@ def get_help() -> str:
         "   - Parameters:\n"
         "     • start_image_path (str): Path to the first image.\n"
         "     • end_image_path (str): Path to the final image.\n"
-        "     • prompt (str): Instruction detailing the transition.\n"
+        "     • prompt (str): Instruction detailing the transition (e.g., sunset progression).\n"
         "     • delivery (str, default 'inline'): 'inline' or 'uri'.\n\n"
         "5. generate_with_subjects\n"
         "   - Description: Generates a video incorporating specific subjects provided as reference image paths.\n"
@@ -340,11 +452,33 @@ def get_help() -> str:
         "     • video_path (str): Path to the local video file to upload and edit.\n"
         "     • edit_prompt (str): Instruction of what to change in the video.\n"
         "     • delivery (str, default 'inline'): 'inline' or 'uri'.\n\n"
-        "7. get_help\n"
-        "   - Description: Returns this summary and usage guide for all available tools."
+        "7. upload_to_youtube\n"
+        "   - Description: Uploads a local video file to YouTube.\n"
+        "   - Parameters:\n"
+        "     • video_path (str): Path to the local video file.\n"
+        "     • title (str): Title of the video.\n"
+        "     • description (str): Description of the video.\n"
+        "     • category_id (str, default '22'): YouTube category ID.\n"
+        "     • privacy_status (str, default 'private'): 'private', 'public', or 'unlisted'.\n\n"
+        "8. get_help\n"
+        "   - Description: Returns this summary, prompting best practices, and usage guide.\n\n"
+        "📦 Delivery Modes:\n"
+        "   - inline: Returns video data embedded as base64. Fast for small clips (< 4MB).\n"
+        "   - uri: Recommended for larger clips. Uploads/downloads via Google File API to avoid payload limit issues.\n\n"
+        "💡 Prompting Best Practices for Cinematic Control:\n"
+        "   1. Scene Layout: Describe the environment, subjects, clothing, and spatial arrangement.\n"
+        "   2. Subject Action: Be specific about movement (e.g., 'The cat slowly sips its tea, lifting the mug').\n"
+        "   3. Camera & Motion: Use cinematic terms: panning, tracking shot, crane shot, slow zoom, or cinematic close-up.\n"
+        "   4. Lighting & Mood: Specify lighting (e.g., volumetric lighting, golden hour, cyberpunk neon glow, moody shadows).\n"
+        "   5. Style: State style clearly (e.g., photorealistic 3D render, Pixar animation style, macro photography, flat design 2D vector).\n\n"
+        "🔗 Key Links:\n"
+        "   - Interactions API: https://ai.google.dev/api/interactions-api\n"
+        "   - Prompting Guide: https://deepmind.google/models/gemini-omni/prompt-guide/\n"
+        "   - Project Mapping: GEMINI.md / README.md"
     )
     return summary
 
 
 if __name__ == "__main__":
     mcp.run()
+

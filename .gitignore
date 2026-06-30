@@ -5,3 +5,6 @@ __pycache__/
 .venv
 venv/
 ENV/
+youtube.json
+client_secrets.json
+token.pickle

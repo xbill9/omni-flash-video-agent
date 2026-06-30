@@ -41,7 +41,7 @@ Gemini Omni Flash responds best to detailed cinematic descriptions:
 
 ## 🛠 Project Implementation Mapping
 
-These Interactions API patterns are implemented across the following files in this project:
+These Interactions API patterns and auxiliary tools are implemented across the following files in this project:
 
 ```mermaid
 graph TD
@@ -51,6 +51,7 @@ graph TD
     A --> E[Keyframe Interpolation]
     A --> F[Subject Reference]
     A --> G[User Video Upload]
+    Y[YouTube Data API v3] --> Z[YouTube Upload]
 
     B --> H["generate_gemma_video.py<br>generate_video() in server.py"]
     C --> I["update_gemma_video.py<br>edit_video() in server.py"]
@@ -58,6 +59,7 @@ graph TD
     E --> K["interpolate_images() in server.py"]
     F --> L["generate_with_subjects() in server.py"]
     G --> M["edit_user_video() in server.py"]
+    Z --> N["upload_to_youtube() in server.py"]
 ```
 
 ### 📋 Detailed Implementation Details
@@ -85,6 +87,14 @@ graph TD
 * **User Video Upload & Edit (`edit_user_video`):**
   Uploads any standard local MP4 video file to the Gemini File API and processes it with a natural language instruction to edit or stylize the video.
   *See: [`edit_user_video` in server.py](file:///home/xbill/omni-flash-video-agent/server.py#L240-L296)*
+
+* **YouTube Upload (`upload_to_youtube`):**
+  Authenticates via Google OAuth2 and uploads local video files directly to YouTube, supporting title, description, category, and privacy settings.
+  *See: [`upload_to_youtube` in server.py](file:///home/xbill/omni-flash-video-agent/server.py#L299-L408)*
+
+* **On-Demand Onboarding and Guide (`get_help`):**
+  Provides prompting best practices, delivery modes, and details of all available MCP tools in the Gemini Omni Flash Video Agent.
+  *See: [`get_help` in server.py](file:///home/xbill/omni-flash-video-agent/server.py#L411-L480)*
 
 ---
 

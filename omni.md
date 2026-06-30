@@ -1,7 +1,5 @@
 # Gemini Omni Flash (gemini-omni-flash-preview) Documentation
 
-***Confidential: The following is under embargo until further notice. Please do not publicly share or post this information.***
-
 Gemini Omni Flash (codenamed **gemini-omni-flash-preview**) is a high-performance multimodal model designed for high-speed video generation, editing, and cinematic control. Unlike traditional video generation models that produce a single output, Omni lets you iteratively refine and edit your videos through natural language conversation — just describe what you want to change, and the model applies the edit while preserving the parts you want to keep.
 
 ***Key differentiator:*** *Unlike Veo (which uses the `generate_videos` endpoint), Gemini Omni Flash is available exclusively through the [Interactions API](https://ai.google.dev/gemini-api/docs/interactions-overview). Every call — whether generating a first video or editing an existing one — uses `create_interaction`. This means you can generate a video, then edit it through follow-up prompts — all within a single conversation and without having to download or upload anything.*
