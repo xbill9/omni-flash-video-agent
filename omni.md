@@ -605,26 +605,3 @@ Keep the following limitations in mind when working with Gemini Omni Flash durin
 * *Content safety filters are applied to both input prompts and generated video (and depend on your region). Prompts that violate usage policies will be blocked.*  
   
 
-
-## We Want Your Feedback
-
-Please start by answering [the survey](https://forms.gle/FQ6sm6daje2F7t8t9), then if you have other things you want to share with us, please reply directly to this email with your findings. We are specifically looking to understand your experience across both model performance and API integration:
-
-Industry-Specific Feedback:
-
-* Industry Use Cases: We are looking for explicit feedback from industries like film studios, advertising, marketing, education, and gaming. How is Omni working for your specific industry use cases?  
-* Veo Workflows: Is Omni able to support your existing Veo video model workflows? If not, what are the gaps?
-
-API & Integration Experience:
-
-* Awareness & Adoption: Were you aware of the Interactions API prior to this program?  
-* Integration Challenges: Do you foresee any trouble integrating the Interactions API into your existing systems or architecture? If so, why?  
-* Ease of Use: How would you rate the overall developer experience and ease of use of the Interactions API when building multi-turn video workflows?  
-* Resolution: Would you prefer to generate all resolutions with Omni to only 720p one and upscale them later with a cheaper model?
-
-Model Quality & Prompting:
-
-* Unstructured Prompting: How well is the conversational, unstructured prompting working for your specific use cases compared to other methods? Please share specific prompts you've tested.  
-* Use Cases & Comparisons: What are your primary use cases for Omni? If you are currently using other video generation models (like Veo), how does Omni compare in quality and prompt adherence?  
-* Text-Free Output: How important is it for your application to generate video-only outputs (guaranteeing no text generation in the visual output), and why?
-
