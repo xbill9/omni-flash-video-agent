@@ -4,7 +4,6 @@ Gemini Omni Flash (codenamed **gemini-omni-flash-preview**) is a high-performanc
 
 ***Key differentiator:*** *Unlike Veo (which uses the `generate_videos` endpoint), Gemini Omni Flash is available exclusively through the [Interactions API](https://ai.google.dev/gemini-api/docs/interactions-overview). Every call — whether generating a first video or editing an existing one — uses `create_interaction`. This means you can generate a video, then edit it through follow-up prompts — all within a single conversation and without having to download or upload anything.*
 
-**Check out [the colab](https://colab.sandbox.google.com/drive/1XTxbQoVmJr9UYA-LUXDPmSr2woPE-vZZ?resourcekey=0-YXhl5MhhIrarxU2Xu3yhAQ) if you prefer an interactive get started guide.**
 
 ## Key features
 
