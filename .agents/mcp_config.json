@@ -6,8 +6,8 @@
         "/home/xbill/omni-flash-video-agent/server.py"
       ],
       "env": {
-        "GEMINI_API_KEY": "",
-        "GOOGLE_API_KEY": ""
+        "GEMINI_API_KEY": "AIzaSyC5zu6JJSdDqsmF5HWUZg0hU2qg175BRNU",
+        "GOOGLE_API_KEY": "AIzaSyC5zu6JJSdDqsmF5HWUZg0hU2qg175BRNU"
       }
     }
   }
